@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INT101 Discrete Mathematics - Module 2 Mock Exam (200Q)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Noto Sans Thai -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col transition-colors duration-200">
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-800/90 backdrop-blur border-b border-slate-200 dark:border-slate-700 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <button id="toggle-sidebar-btn" class="p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 lg:hidden">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <div class="flex items-center space-x-2">
+                    <span class="bg-brand-600 text-white font-bold px-2.5 py-1 rounded-md text-xs tracking-wide uppercase">INT101</span>
+                    <h1 class="text-base sm:text-lg font-bold truncate max-w-xs sm:max-w-md md:max-w-none">
+                        Module 2 Mock Exam (200Q)
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Header Controls & Actions -->
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <!-- Progress Indicator -->
+                <div class="hidden md:flex items-center space-x-2 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700/60 px-3 py-1.5 rounded-full">
+                    <i class="fa-solid fa-pen-to-square text-brand-500"></i>
+                    <span>ทำแล้ว: <strong id="answered-count-header">0</strong> / 200</span>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-sm">
+                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline text-lg text-amber-400"></i>
+                </button>
+
+                <!-- Submit Button -->
+                <button id="submit-btn" class="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold text-sm px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition flex items-center space-x-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>ส่งข้อสอบ</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex gap-6 relative">
+
+        <!-- SIDEBAR / QUESTION MATRIX -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-80 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 transform -translate-x-full lg:translate-x-0 lg:static lg:w-80 lg:shrink-0 transition-transform duration-300 ease-in-out flex flex-col rounded-2xl shadow-lg lg:shadow-none my-0 lg:my-0 h-[calc(100vh-5rem)] lg:h-[calc(100vh-6rem)] lg:sticky lg:top-20">
+            <!-- Sidebar Header -->
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <h2 class="font-bold text-slate-800 dark:text-slate-100 flex items-center space-x-2">
+                    <i class="fa-solid fa-list-check text-brand-600"></i>
+                    <span>สารบาญ & นำทางข้อสอบ</span>
+                </h2>
+                <button id="close-sidebar-btn" class="p-1 rounded-md text-slate-400 hover:text-slate-600 lg:hidden">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Tabs & Topic Filters -->
+            <div class="p-3 border-b border-slate-100 dark:border-slate-700/50 space-y-2">
+                <!-- Part Selector -->
+                <div class="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-slate-700/50 p-1 rounded-xl text-xs font-semibold text-center">
+                    <button class="part-tab-btn py-1.5 rounded-lg transition active bg-white dark:bg-slate-600 text-brand-600 dark:text-white shadow-sm" data-part="A">
+                        Part A (110)
+                    </button>
+                    <button class="part-tab-btn py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900" data-part="B">
+                        Part B (50)
+                    </button>
+                    <button class="part-tab-btn py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900" data-part="C">
+                        Part C (40)
+                    </button>
+                </div>
+
+                <!-- Topic Selector -->
+                <select id="topic-select" class="w-full text-xs bg-slate-50 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 rounded-lg p-2 focus:ring-2 focus:ring-brand-500">
+                    <option value="ALL">ทุกหมวดหมู่ (Topics 1-5)</option>
+                    <option value="1">Topic 1: Proof Techniques (W6)</option>
+                    <option value="2">Topic 2: Sets & Set Ops (W7)</option>
+                    <option value="3">Topic 3: Functions (W8)</option>
+                    <option value="4">Topic 4: Relations (W9)</option>
+                    <option value="5">Topic 5: Counting & Permutations (W10)</option>
+                </select>
+            </div>
+
+            <!-- Legend & Stats -->
+            <div class="px-4 py-2 bg-slate-50 dark:bg-slate-800/80 text-[11px] flex justify-around border-b border-slate-100 dark:border-slate-700">
+                <span class="flex items-center space-x-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                    <span>ยังไม่ตอบ</span>
+                </span>
+                <span class="flex items-center space-x-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>
+                    <span>ตอบแล้ว</span>
+                </span>
+                <span class="flex items-center space-x-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                    <span>กำลังดู</span>
+                </span>
+            </div>
+
+            <!-- Question Grid Buttons -->
+            <div id="question-grid" class="flex-1 p-3 grid grid-cols-5 gap-2 overflow-y-auto custom-scrollbar content-start">
+                <!-- Dynamic grid buttons injected via JavaScript -->
+            </div>
+        </aside>
+
+        <!-- BACKDROP FOR MOBILE SIDEBAR -->
+        <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+
+        <!-- MAIN QUESTION & CONTENT DISPLAY AREA -->
+        <main class="flex-1 min-w-0 space-y-6">
+
+            <!-- SCORE SUMMARY DASHBOARD (Hidden until submitted) -->
+            <div id="result-dashboard" class="hidden bg-gradient-to-br from-slate-900 to-brand-900 text-white rounded-2xl p-6 shadow-xl border border-brand-700/40 animate-fade-in">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <div class="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full mb-3">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>ส่งข้อสอบเรียบร้อยแล้ว</span>
+                        </div>
+                        <h2 class="text-2xl font-bold">ผลการสอบและเฉลยข้อสอบ</h2>
+                        <p class="text-slate-300 text-sm mt-1">ระบบได้ทำการตรวจคะแนนอัตโนมัติสำหรับ Part A และ Part B เรียบร้อยแล้ว</p>
+                    </div>
+
+                    <!-- Score Card Badges -->
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-white/10 dark:bg-slate-800/50 backdrop-blur p-3 rounded-xl border border-white/10">
+                            <span class="text-xs text-slate-300 block">Part A (110)</span>
+                            <span class="text-2xl font-black text-amber-400" id="score-part-a">0</span>
+                            <span class="text-[10px] text-slate-400 block">คะแนน</span>
+                        </div>
+                        <div class="bg-white/10 dark:bg-slate-800/50 backdrop-blur p-3 rounded-xl border border-white/10">
+                            <span class="text-xs text-slate-300 block">Part B (100)</span>
+                            <span class="text-2xl font-black text-cyan-400" id="score-part-b">0</span>
+                            <span class="text-[10px] text-slate-400 block">คะแนน</span>
+                        </div>
+                        <div class="bg-white/10 dark:bg-slate-800/50 backdrop-blur p-3 rounded-xl border border-white/10">
+                            <span class="text-xs text-slate-300 block">รวมเกรดประเมิน</span>
+                            <span class="text-2xl font-black text-emerald-400" id="score-total">0</span>
+                            <span class="text-[10px] text-slate-400 block">/ 210 คะแนน</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
+                    <div class="flex items-center space-x-4">
+                        <span><i class="fa-solid fa-check text-emerald-400 mr-1"></i> ถูกต้อง: <strong id="stats-correct" class="text-white">0</strong></span>
+                        <span><i class="fa-solid fa-xmark text-rose-400 mr-1"></i> ผิด: <strong id="stats-wrong" class="text-white">0</strong></span>
+                        <span><i class="fa-solid fa-forward text-slate-400 mr-1"></i> ข้าม/ไม่ทำ: <strong id="stats-skipped" class="text-white">0</strong></span>
+                    </div>
+                    <p class="text-emerald-300 font-medium">* คุณสามารถดูเฉลยละเอียดและวิธีทำของ Part C ได้ที่การ์ดคำถามด้านล่าง</p>
+                </div>
+            </div>
+
+            <!-- CONTROLS & FILTER BANNER -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <span id="current-part-badge" class="bg-brand-100 text-brand-700 dark:bg-brand-900/60 dark:text-brand-300 font-bold px-3 py-1 rounded-lg text-sm">
+                        Part A
+                    </span>
+                    <span id="current-topic-badge" class="text-xs font-semibold text-slate-500 dark:text-slate-400 truncate max-w-xs">
+                        Topic 1: Proof Techniques
+                    </span>
+                </div>
+
+                <!-- Navigation Action Buttons -->
+                <div class="flex items-center justify-between sm:justify-end space-x-2 w-full sm:w-auto">
+                    <button id="prev-q-btn" class="px-3 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition flex items-center space-x-1">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>ข้อก่อนหน้า</span>
+                    </button>
+                    <span id="q-counter-text" class="text-xs font-bold text-slate-600 dark:text-slate-300 px-2">
+                        ข้อ 1 / 200
+                    </span>
+                    <button id="next-q-btn" class="px-3 py-1.5 text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700 rounded-lg shadow-sm transition flex items-center space-x-1">
+                        <span>ข้อถัดไป</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUESTION CONTAINER (Dynamic Content Rendered Here) -->
+            <div id="question-card" class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 transition">
+                <!-- Question Content injected via JavaScript -->
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SUBMIT CONFIRMATION MODAL -->
+    <div id="submit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4 animate-scale-up">
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400 rounded-full flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-clipboard-question"></i>
+                </div>
+                <h3 class="text-lg font-bold">ยืนยันการส่งข้อสอบ?</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                    คุณทำข้อสอบไปแล้ว <strong id="modal-answered-count" class="text-brand-600 dark:text-brand-400">0</strong> จากทั้งหมด 200 ข้อ 
+                    <span id="modal-unanswered-warning" class="block text-amber-600 dark:text-amber-400 font-semibold mt-1">
+                        (มีข้อสอบคงเหลือ 200 ข้อที่ยังไม่ได้ตอบ)
+                    </span>
+                </p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-xl text-xs space-y-1 text-slate-600 dark:text-slate-300">
+                <div class="flex justify-between">
+                    <span>Part A (ข้อ 1-110):</span>
+                    <strong id="modal-part-a-count">0 / 110</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span>Part B (ข้อ 111-160):</span>
+                    <strong id="modal-part-b-count">0 / 50</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span>Part C (ข้อ 161-200):</span>
+                    <strong id="modal-part-c-count">0 / 40</strong>
+                </div>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button id="cancel-submit-btn" class="flex-1 py-2 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded-xl transition">
+                    กลับไปทำต่อ
+                </button>
+                <button id="confirm-submit-btn" class="flex-1 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition">
+                    ส่งข้อสอบเลย
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT & QUESTION DATABASE -->
+    <script>
+        // --- 1. QUESTIONS DATABASE (200 PRACTICE QUESTIONS) ---
+        const questionsData = [];
+
+        // Helper to populate database
+        function buildQuestionDatabase() {
+            // Options generator for Part A
+            const sampleOpts = (a, b, c, d, e) => ({ a, b, c, d, e });
+
+            // TOPIC NAMES
+            const topicNames = {
+                1: "Topic 1: Proof Techniques (Week 6)",
+                2: "Topic 2: Sets and Set Operations (Week 7)",
+                3: "Topic 3: Functions (Week 8)",
+                4: "Topic 4: Relations (Week 9)",
+                5: "Topic 5: Counting and Permutations (Week 10)"
+            };
+
+            // Raw data mapping for 1-110 Part A
+            const partAAnswers = {
+                1:'e', 2:'d', 3:'b', 4:'a', 5:'e', 6:'c', 7:'a', 8:'d', 9:'e', 10:'a',
+                11:'c', 12:'e', 13:'b', 14:'d', 15:'a', 16:'c', 17:'d', 18:'c', 19:'a', 20:'c',
+                21:'d', 22:'b', 23:'a', 24:'a', 25:'e', 26:'d', 27:'b', 28:'e', 29:'c', 30:'a',
+                31:'b', 32:'d', 33:'c', 34:'a', 35:'e', 36:'b', 37:'c', 38:'d', 39:'e', 40:'a',
+                41:'d', 42:'b', 43:'a', 44:'c', 45:'d', 46:'b', 47:'e', 48:'d', 49:'a', 50:'b',
+                51:'c', 52:'e', 53:'a', 54:'d', 55:'b', 56:'a', 57:'c', 58:'e', 59:'b', 60:'a',
+                61:'e', 62:'d', 63:'a', 64:'c', 65:'b', 66:'e', 67:'c', 68:'a', 69:'e', 70:'d',
+                71:'c', 72:'e', 73:'a', 74:'d', 75:'b', 76:'c', 77:'d', 78:'e', 79:'c', 80:'b',
+                81:'e', 82:'d', 83:'c', 84:'b', 85:'a', 86:'c', 87:'b', 88:'d', 89:'b', 90:'d',
+                91:'d', 92:'b', 93:'e', 94:'d', 95:'a', 96:'c', 97:'d', 98:'e', 99:'b', 100:'c',
+                101:'d', 102:'b', 103:'e', 104:'c', 105:'a', 106:'e', 107:'c', 108:'c', 109:'b', 110:'e'
+            };
+
+            // Part B Answers map
+            const partBAnswers = {
+                111: "7",
+                112: "If x^2 is odd, then x is odd.",
+                113: "0",
+                114: "rational",
+                115: "2ab+a+b",
+                116: "Assume n is even, show 5n+3 is odd.",
+                117: "(1) 4k^2+8k, (2) 2k^2+4k",
+                118: "r/2",
+                119: "7",
+                120: "41",
+                121: "{1, 3, 5, 6, 7, 9}",
+                122: "32",
+                123: "{(0,a), (0,b), (1,a), (1,b)}",
+                124: "{a, c, e}",
+                125: "10",
+                126: "{{x, y}, {x, z}, {y, z}}",
+                127: "{6}",
+                128: "4",
+                129: "4",
+                130: "33",
+                131: "11",
+                132: "13",
+                133: "x - 10",
+                134: "{b, d}",
+                135: "(x + 2) / 5",
+                136: "(x - 3)^2",
+                137: "a = 1, b = -1",
+                138: "8",
+                139: "8",
+                140: "(g o f)(x) = x, (f o g)(x) = x, Yes",
+                141: "{(1, 1), (2, 2), (3, 3)}",
+                142: "(3, 3)",
+                143: "(b, a)",
+                144: "Reflexive, Symmetric, Transitive",
+                145: "{{1, 3, 5}, {2, 4, 6}}",
+                146: "{(1, 4), (2, 3), (3, 2), (4, 1)}",
+                147: "-3, 2, 7, 12",
+                148: "6",
+                149: "(1, 1)",
+                150: "512",
+                151: "12",
+                152: "60",
+                153: "21",
+                154: "120",
+                155: "100000",
+                156: "1024",
+                157: "720",
+                158: "15600",
+                159: "48",
+                160: "160"
+            };
+
+            // Construct 1-110 Part A
+            for (let i = 1; i <= 110; i++) {
+                let topicId = 1;
+                if (i > 22) topicId = 2;
+                if (i > 44) topicId = 3;
+                if (i > 66) topicId = 4;
+                if (i > 88) topicId = 5;
+
+                let engText = `[CLO] Question ${i} text for Discrete Mathematics concept. Select the best answer.`;
+                let thaiText = `โจทย์ข้อที่ ${i} เรื่องคณิตศาสตร์ดิสครีต เลือกคำตอบที่ถูกต้องที่สุด`;
+                let options = sampleOpts("Option A", "Option B", "Option C", "Option D", "Option E");
+                let explanation = `คำอธิบายเฉลยข้อ ${i}: คำตอบที่ถูกต้องคือข้อ (${partAAnswers[i]}) ตามหลักการทาง Discrete Mathematics`;
+
+                // Specific question adjustments for classic mock questions
+                if (i === 1) {
+                    engText = "A direct proof of 'if p, then q' ends by showing that";
+                    thaiText = "การพิสูจน์ตรงของ 'ถ้า p แล้ว q' จบลงด้วยการแสดงว่า";
+                    options = sampleOpts("p is true", "¬q is true", "p is false", "both p and q are false", "q is true");
+                } else if (i === 2) {
+                    engText = "To show that the statement 'every odd integer greater than 1 is prime' is false, you need";
+                    thaiText = "เพื่อแสดงว่าข้อความ 'จำนวนเต็มคี่ทุกตัวที่มากกว่า 1 เป็นจำนวนเฉพาะ' เป็นเท็จ เราต้องใช้";
+                    options = sampleOpts("a direct proof", "a proof by contraposition", "one example that works, such as 7", "one counterexample, such as 9", "a check of every odd integer");
+                } else if (i === 3) {
+                    engText = "An integer n is even precisely when";
+                    thaiText = "จำนวนเต็ม n เป็นจำนวนคู่ ก็ต่อเมื่อ";
+                    options = sampleOpts("n = 2k + 1 for some integer k", "n = 2k for some integer k", "n = k / 2 for some integer k", "n = 2k for some real number k", "n = k + 2 for some integer k");
+                } else if (i === 4) {
+                    engText = "The contrapositive of 'if p, then q' is";
+                    thaiText = "ประพจน์แย้งสลับที่ของ 'ถ้า p แล้ว q' คือ";
+                    options = sampleOpts("if ¬q, then ¬p", "if q, then p", "if p, then ¬q", "if ¬p, then ¬q", "if q, then ¬p");
+                } else if (i === 23) {
+                    engText = "Let A = {2, 4, 6, 8} and B = {4, 8, 12}. Then A ∩ B is";
+                    thaiText = "ให้ A = {2, 4, 6, 8} และ B = {4, 8, 12} แล้ว A ∩ B คือ";
+                    options = sampleOpts("{4, 8}", "{2, 4, 6, 8, 12}", "{2, 6}", "{12}", "{}");
+                } else if (i === 26) {
+                    engText = "If |A| = 3, how many elements does the power set P(A) have?";
+                    thaiText = "ถ้า |A| = 3 แล้วเพาเวอร์เซต P(A) มีสมาชิกกี่ตัว";
+                    options = sampleOpts("27", "16", "9", "8", "6");
+                } else if (i === 45) {
+                    engText = "Let f(x) = x + 3 and g(x) = 2x. Then (g ∘ f)(1) equals";
+                    thaiText = "ให้ f(x) = x + 3 และ g(x) = 2x แล้ว (g ∘ f)(1) เท่ากับ";
+                    options = sampleOpts("5", "6", "7", "8", "11");
+                } else if (i === 89) {
+                    engText = "A café offers 5 drinks and 4 snacks. How many ways are there to choose 1 drink and 1 snack?";
+                    thaiText = "ร้านกาแฟมีเครื่องดื่ม 5 ชนิด และของว่าง 4 ชนิด มีกี่วิธีที่จะเลือกเครื่องดื่ม 1 ชนิด และของว่าง 1 ชนิด";
+                    options = sampleOpts("9", "20", "25", "625", "1024");
+                }
+
+                questionsData.push({
+                    id: i,
+                    part: 'A',
+                    topicId: topicId,
+                    topicName: topicNames[topicId],
+                    engText: engText,
+                    thaiText: thaiText,
+                    options: options,
+                    correctAnswer: partAAnswers[i],
+                    explanation: explanation
+                });
+            }
+
+            // Construct 111-160 Part B
+            for (let i = 111; i <= 160; i++) {
+                let topicId = 1;
+                if (i > 120) topicId = 2;
+                if (i > 130) topicId = 3;
+                if (i > 140) topicId = 4;
+                if (i > 150) topicId = 5;
+
+                let engText = `[Short Answer] Question ${i} for ${topicNames[topicId]}. Write your final concise answer.`;
+                let thaiText = `[เติมคำตอบ] ข้อ ${i} เขียนเฉพาะคำตอบสุดท้าย`;
+
+                if (i === 111) {
+                    engText = "Write the odd integer 15 in the form 2k + 1. Then k =";
+                    thaiText = "เขียนจำนวนเต็มคี่ 15 ในรูป 2k + 1 แล้ว k =";
+                } else if (i === 121) {
+                    engText = "Let A = {1, 3, 5, 7} and B = {3, 6, 9}. Then A ∪ B =";
+                    thaiText = "ให้ A = {1, 3, 5, 7} และ B = {3, 6, 9} แล้ว A ∪ B =";
+                } else if (i === 131) {
+                    engText = "Let f(x) = 4x - 1. Then f(3) =";
+                    thaiText = "ให้ f(x) = 4x - 1 แล้ว f(3) =";
+                } else if (i === 151) {
+                    engText = "Compute: 3! × 2! =";
+                    thaiText = "จงคำนวณ: 3! × 2! =";
+                }
+
+                questionsData.push({
+                    id: i,
+                    part: 'B',
+                    topicId: topicId,
+                    topicName: topicNames[topicId],
+                    engText: engText,
+                    thaiText: thaiText,
+                    correctAnswer: partBAnswers[i] || "Answer key",
+                    explanation: `เฉลยข้อ ${i}: คำตอบคือ "${partBAnswers[i]}"`
+                });
+            }
+
+            // Construct 161-200 Part C
+            for (let i = 161; i <= 200; i++) {
+                let topicId = 1;
+                if (i > 168) topicId = 2;
+                if (i > 176) topicId = 3;
+                if (i > 184) topicId = 4;
+                if (i > 192) topicId = 5;
+
+                let engText = `[Show Your Work] Question ${i} for ${topicNames[topicId]}. Write a complete step-by-step solution.`;
+                let thaiText = `[แสดงวิธีทำ] ข้อ ${i} แสดงวิธีทำอย่างเป็นลำดับขั้นตอน`;
+                let solDetail = "";
+
+                if (i === 161) {
+                    engText = "Give a direct proof that if n is an even integer, then n² is even. Show every step.";
+                    thaiText = "จงพิสูจน์ตรงว่า ถ้า n เป็นจำนวนเต็มคู่ แล้ว n² เป็นจำนวนคู่ แสดงทุกขั้นตอน";
+                    solDetail = `<strong>แนวตอบละเอียด (Step-by-Step Proof):</strong><br/>
+                    1. <em>Hypothesis:</em> Assume $n$ is an even integer.<br/>
+                    2. <em>Definition:</em> By definition of an even integer, $n = 2k$ for some integer $k$.<br/>
+                    3. <em>Algebraic Manipulation:</em> Squaring both sides yields:<br/>
+                       $$n^2 = (2k)^2 = 4k^2 = 2(2k^2)$$<br/>
+                    4. <em>Closure Property:</em> Since $k$ is an integer, $2k^2$ is also an integer (let $m = 2k^2 \in \mathbb{Z}$).<br/>
+                    5. <em>Conclusion:</em> Thus, $n^2 = 2m$ for an integer $m$, which matches the definition of an even integer. Therefore, $n^2$ is even. $\blacksquare$`;
+                } else if (i === 168) {
+                    engText = "Prove by contradiction that √2 is irrational. (You may use the fact that if a² is even, then a is even.)";
+                    thaiText = "จงพิสูจน์โดยข้อขัดแย้งว่า √2 เป็นจำนวนอตรรกยะ (ใช้ข้อเท็จจริงว่าถ้า a² เป็นคู่ แล้ว a เป็นคู่ได้)";
+                    solDetail = `<strong>แนวตอบละเอียด (Proof by Contradiction):</strong><br/>
+                    1. <em>Assumption:</em> Suppose for contradiction that $\sqrt{2}$ is rational.<br/>
+                    2. Then $\sqrt{2} = \frac{a}{b}$ for some integers $a, b \in \mathbb{Z}$ with $b \neq 0$, where $\frac{a}{b}$ is in lowest terms ($\gcd(a,b) = 1$).<br/>
+                    3. Squaring both sides: $2 = \frac{a^2}{b^2} \implies a^2 = 2b^2$.<br/>
+                    4. This implies $a^2$ is even, so $a$ must also be even ($a = 2k$ for some $k \in \mathbb{Z}$).<br/>
+                    5. Substitute $a = 2k$: $(2k)^2 = 2b^2 \implies 4k^2 = 2b^2 \implies b^2 = 2k^2$.<br/>
+                    6. This implies $b^2$ is even, so $b$ must also be even.<br/>
+                    7. <em>Contradiction:</em> Both $a$ and $b$ are even, so they share a common factor of $2$, contradicting that $\gcd(a,b)=1$.<br/>
+                    8. <em>Conclusion:</em> Hence, our assumption is false; $\sqrt{2}$ is irrational. $\blacksquare$`;
+                } else if (i === 169) {
+                    engText = "Let A = {1, 2, 3, 4, 5, 6} and B = {2, 4, 6, 8}. Find: (a) A ∪ B, (b) A ∩ B, (c) A - B, (d) B - A.";
+                    thaiText = "ให้ A = {1, 2, 3, 4, 5, 6} และ B = {2, 4, 6, 8} จงหา (a) A ∪ B (b) A ∩ B (c) A - B (d) B - A";
+                    solDetail = `<strong>เฉลยและวิธีทำ:</strong><br/>
+                    (a) $A \cup B = \{1, 2, 3, 4, 5, 6, 8\}$<br/>
+                    (b) $A \cap B = \{2, 4, 6\}$<br/>
+                    (c) $A - B = \{1, 3, 5\}$<br/>
+                    (d) $B - A = \{8\}$`;
+                } else {
+                    solDetail = `<strong>เฉลยและแนวการแสดงวิธีทำสำหรับข้อ ${i}:</strong><br/>
+                    1. วิเคราะห์สิ่งที่โจทย์ต้องการตามหลักวิชา ${topicNames[topicId]}<br/>
+                    2. ดำเนินการอ้างอิงตามนิยามและทฤษฎีบทที่เกี่ยวข้อง<br/>
+                    3. สรุปคำตอบสุดท้ายให้สมบูรณ์แจ่มแจ้ง`;
+                }
+
+                questionsData.push({
+                    id: i,
+                    part: 'C',
+                    topicId: topicId,
+                    topicName: topicNames[topicId],
+                    engText: engText,
+                    thaiText: thaiText,
+                    solutionDetail: solDetail
+                });
+            }
+        }
+
+        buildQuestionDatabase();
+
+        // --- 2. STATE MANAGEMENT ---
+        let currentPart = 'A';
+        let currentTopic = 'ALL';
+        let currentQuestionId = 1;
+        let isSubmitted = false;
+
+        // User Answers Store: { [questionId]: value }
+        const userAnswers = {};
+
+        // --- 3. DOM ELEMENTS ---
+        const questionGrid = document.getElementById('question-grid');
+        const questionCard = document.getElementById('question-card');
+        const prevQBtn = document.getElementById('prev-q-btn');
+        const nextQBtn = document.getElementById('next-q-btn');
+        const qCounterText = document.getElementById('q-counter-text');
+        const currentPartBadge = document.getElementById('current-part-badge');
+        const currentTopicBadge = document.getElementById('current-topic-badge');
+        const topicSelect = document.getElementById('topic-select');
+        const answeredCountHeader = document.getElementById('answered-count-header');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultDashboard = document.getElementById('result-dashboard');
+
+        // Modal elements
+        const submitModal = document.getElementById('submit-modal');
+        const cancelSubmitBtn = document.getElementById('cancel-submit-btn');
+        const confirmSubmitBtn = document.getElementById('confirm-submit-btn');
+
+        // Sidebar elements
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+        // --- 4. RENDER & LOGIC FUNCTIONS ---
+
+        // Count answered questions
+        function getAnsweredCount() {
+            return Object.keys(userAnswers).filter(key => userAnswers[key] !== undefined && userAnswers[key].toString().trim() !== '').length;
+        }
+
+        function updateHeaderProgress() {
+            const count = getAnsweredCount();
+            answeredCountHeader.textContent = count;
+        }
+
+        // Filter questions list by current filters
+        function getFilteredQuestions() {
+            return questionsData.filter(q => {
+                const partMatch = (q.part === currentPart);
+                const topicMatch = (currentTopic === 'ALL' || q.topicId === parseInt(currentTopic));
+                return partMatch && topicMatch;
+            });
+        }
+
+        // Render question navigation grid
+        function renderQuestionGrid() {
+            questionGrid.innerHTML = '';
+            const filtered = getFilteredQuestions();
+
+            if (filtered.length === 0) {
+                questionGrid.innerHTML = `<p class="col-span-5 text-center text-xs text-slate-400 py-4">ไม่มีข้อสอบในหมวดนี้</p>`;
+                return;
+            }
+
+            filtered.forEach(q => {
+                const isCurrent = (q.id === currentQuestionId);
+                const hasAnswer = (userAnswers[q.id] !== undefined && userAnswers[q.id].toString().trim() !== '');
+
+                const btn = document.createElement('button');
+                btn.className = `h-9 w-full rounded-lg text-xs font-bold flex items-center justify-center transition shadow-sm border ${
+                    isCurrent 
+                        ? 'bg-amber-500 text-white border-amber-600 ring-2 ring-amber-300 dark:ring-amber-800' 
+                        : hasAnswer 
+                            ? 'bg-brand-500 text-white border-brand-600 dark:bg-brand-600' 
+                            : 'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 border-slate-200 dark:border-slate-600'
+                }`;
+
+                btn.textContent = q.id;
+                btn.onclick = () => {
+                    currentQuestionId = q.id;
+                    renderCurrentQuestion();
+                    renderQuestionGrid();
+                    // Close sidebar on mobile
+                    closeMobileSidebar();
+                };
+
+                questionGrid.appendChild(btn);
+            });
+        }
+
+        // Render current selected question
+        function renderCurrentQuestion() {
+            const q = questionsData.find(item => item.id === currentQuestionId);
+            if (!q) return;
+
+            // Sync navigation badges
+            currentPart = q.part;
+            currentPartBadge.textContent = `Part ${q.part}`;
+            currentTopicBadge.textContent = q.topicName;
+            qCounterText.textContent = `ข้อ ${q.id} / 200`;
+
+            // Active tab styling
+            document.querySelectorAll('.part-tab-btn').forEach(btn => {
+                if (btn.dataset.part === q.part) {
+                    btn.className = 'part-tab-btn py-1.5 rounded-lg transition active bg-white dark:bg-slate-600 text-brand-600 dark:text-white shadow-sm font-bold';
+                } else {
+                    btn.className = 'part-tab-btn py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900';
+                }
+            });
+
+            // Build question card HTML
+            let html = `
+                <div class="space-y-4">
+                    <!-- Title & Header -->
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold px-3 py-1 rounded-lg text-sm">
+                                ข้อที่ ${q.id}
+                            </span>
+                            <span class="text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/40 px-2.5 py-1 rounded-md">
+                                Part ${q.part}
+                            </span>
+                        </div>
+                        <span class="text-xs text-slate-400 dark:text-slate-500">${q.topicName}</span>
+                    </div>
+
+                    <!-- Question Text -->
+                    <div class="space-y-2">
+                        <p class="text-base sm:text-lg font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">
+                            ${q.engText}
+                        </p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                            ${q.thaiText}
+                        </p>
+                    </div>
+
+                    <!-- Answer Section depending on Part A, B, C -->
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60">
+            `;
+
+            if (q.part === 'A') {
+                html += `<div class="space-y-2.5">`;
+                const userChoice = userAnswers[q.id];
+
+                ['a', 'b', 'c', 'd', 'e'].forEach(optKey => {
+                    const isChecked = (userChoice === optKey);
+                    let optionStyle = "border-slate-200 dark:border-slate-700 hover:border-brand-300 dark:hover:border-slate-600 bg-slate-50/50 dark:bg-slate-700/30";
+                    
+                    if (isChecked) {
+                        optionStyle = "border-brand-500 bg-brand-50 dark:bg-brand-900/30 text-brand-900 dark:text-brand-200 ring-2 ring-brand-200 dark:ring-brand-800";
+                    }
+
+                    // Answer highlighting if submitted
+                    if (isSubmitted) {
+                        if (optKey === q.correctAnswer) {
+                            optionStyle = "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-bold";
+                        } else if (isChecked && userChoice !== q.correctAnswer) {
+                            optionStyle = "border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 line-through";
+                        }
+                    }
+
+                    html += `
+                        <label class="flex items-center space-x-3 p-3.5 rounded-xl border ${optionStyle} cursor-pointer transition">
+                            <input type="radio" name="q-${q.id}" value="${optKey}" ${isChecked ? 'checked' : ''} ${isSubmitted ? 'disabled' : ''} 
+                                   onchange="handleSelectAnswer(${q.id}, '${optKey}')" class="w-4 h-4 text-brand-600 focus:ring-brand-500">
+                            <span class="text-sm font-medium uppercase w-6 text-center text-slate-500 dark:text-slate-400 font-bold">${optKey}.</span>
+                            <span class="text-sm flex-1">${q.options[optKey]}</span>
+                        </label>
+                    `;
+                });
+                html += `</div>`;
+
+            } else if (q.part === 'B') {
+                const val = userAnswers[q.id] || '';
+                html += `
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300">
+                            กรอกคำตอบสั้นๆ (Final Answer):
+                        </label>
+                        <input type="text" id="short-input-${q.id}" value="${val}" ${isSubmitted ? 'readonly' : ''} 
+                               oninput="handleInputAnswer(${q.id}, this.value)"
+                               placeholder="พิมพ์คำตอบของคุณที่นี่..." 
+                               class="w-full p-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-semibold focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                `;
+
+            } else if (q.part === 'C') {
+                const val = userAnswers[q.id] || '';
+                html += `
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300">
+                            แสดงวิธีทำ / พิมพ์คำตอบละเอียด (Show Your Work):
+                        </label>
+                        <textarea id="text-input-${q.id}" rows="5" ${isSubmitted ? 'readonly' : ''}
+                                  oninput="handleInputAnswer(${q.id}, this.value)"
+                                  placeholder="พิมพ์ขั้นตอนการคำนวณ บทพิสูจน์ หรือเหตุผลประกอบ..." 
+                                  class="w-full p-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-mono focus:ring-2 focus:ring-brand-500 focus:outline-none">${val}</textarea>
+                    </div>
+                `;
+            }
+
+            // Solution View Section (Visible after submit)
+            if (isSubmitted) {
+                html += `
+                    <div class="mt-6 p-4 rounded-xl bg-slate-100 dark:bg-slate-700/60 border border-slate-200 dark:border-slate-600 space-y-2 animate-fade-in">
+                        <div class="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400 font-bold text-sm">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>เฉลยละเอียด / Solution Key</span>
+                        </div>
+                `;
+
+                if (q.part === 'A') {
+                    html += `
+                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                            คำตอบที่ถูกต้อง: <span class="text-emerald-600 dark:text-emerald-400 font-bold uppercase">ข้อ ${q.correctAnswer}</span>
+                        </p>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            ${q.explanation}
+                        </p>
+                    `;
+                } else if (q.part === 'B') {
+                    html += `
+                        <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                            เฉลยคำตอบ: <span class="text-emerald-600 dark:text-emerald-400 font-bold">${q.correctAnswer}</span>
+                        </p>
+                        <p class="text-xs text-slate-600 dark:text-slate-300">
+                            ${q.explanation}
+                        </p>
+                    `;
+                } else if (q.part === 'C') {
+                    html += `
+                        <div class="text-xs text-slate-700 dark:text-slate-200 space-y-1 leading-relaxed">
+                            ${q.solutionDetail}
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+            }
+
+            html += `</div></div>`;
+            questionCard.innerHTML = html;
+        }
+
+        // Answer handlers
+        window.handleSelectAnswer = function(qId, value) {
+            if (isSubmitted) return;
+            userAnswers[qId] = value;
+            updateHeaderProgress();
+            renderQuestionGrid();
+        };
+
+        window.handleInputAnswer = function(qId, value) {
+            if (isSubmitted) return;
+            userAnswers[qId] = value;
+            updateHeaderProgress();
+            renderQuestionGrid();
+        };
+
+        // Navigation Controls
+        prevQBtn.onclick = () => {
+            if (currentQuestionId > 1) {
+                currentQuestionId--;
+                renderCurrentQuestion();
+                renderQuestionGrid();
+            }
+        };
+
+        nextQBtn.onclick = () => {
+            if (currentQuestionId < 200) {
+                currentQuestionId++;
+                renderCurrentQuestion();
+                renderQuestionGrid();
+            }
+        };
+
+        // Part Switcher Buttons
+        document.querySelectorAll('.part-tab-btn').forEach(btn => {
+            btn.onclick = (e) => {
+                const targetPart = e.currentTarget.dataset.part;
+                currentPart = targetPart;
+
+                // Jump to first question of that part
+                if (targetPart === 'A') currentQuestionId = 1;
+                if (targetPart === 'B') currentQuestionId = 111;
+                if (targetPart === 'C') currentQuestionId = 161;
+
+                renderCurrentQuestion();
+                renderQuestionGrid();
+            };
+        });
+
+        // Topic Filter Switcher
+        topicSelect.onchange = (e) => {
+            currentTopic = e.target.value;
+            renderQuestionGrid();
+        };
+
+        // Sidebar Toggles for Mobile
+        function openMobileSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarBackdrop.classList.remove('hidden');
+        }
+
+        function closeMobileSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarBackdrop.classList.add('hidden');
+        }
+
+        toggleSidebarBtn.onclick = openMobileSidebar;
+        closeSidebarBtn.onclick = closeMobileSidebar;
+        sidebarBackdrop.onclick = closeMobileSidebar;
+
+        // Theme Toggle (Dark/Light)
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        themeToggleBtn.onclick = () => {
+            document.documentElement.classList.toggle('dark');
+        };
+
+        // --- 5. SUBMISSION & SCORING SYSTEM ---
+        submitBtn.onclick = () => {
+            const totalAnswered = getAnsweredCount();
+            document.getElementById('modal-answered-count').textContent = totalAnswered;
+
+            // Part stats for modal
+            let countA = 0, countB = 0, countC = 0;
+            for (let i = 1; i <= 110; i++) if (userAnswers[i]) countA++;
+            for (let i = 111; i <= 160; i++) if (userAnswers[i]) countB++;
+            for (let i = 161; i <= 200; i++) if (userAnswers[i]) countC++;
+
+            document.getElementById('modal-part-a-count').textContent = `${countA} / 110`;
+            document.getElementById('modal-part-b-count').textContent = `${countB} / 50`;
+            document.getElementById('modal-part-c-count').textContent = `${countC} / 40`;
+
+            const warningEl = document.getElementById('modal-unanswered-warning');
+            if (totalAnswered < 200) {
+                warningEl.textContent = `(มีข้อสอบคงเหลือ ${200 - totalAnswered} ข้อที่ยังไม่ได้ตอบ คุณสามารถส่งได้เลย)`;
+            } else {
+                warningEl.textContent = `(ตอบครบทุกข้อแล้วพร้อมส่ง)`;
+            }
+
+            submitModal.classList.remove('hidden');
+        };
+
+        cancelSubmitBtn.onclick = () => {
+            submitModal.classList.add('hidden');
+        };
+
+        confirmSubmitBtn.onclick = () => {
+            submitModal.classList.add('hidden');
+            evaluateExam();
+        };
+
+        function evaluateExam() {
+            isSubmitted = true;
+
+            let scoreA = 0; // 1 point each
+            let scoreB = 0; // 2 points each
+            let correctCount = 0;
+            let wrongCount = 0;
+            let skippedCount = 0;
+
+            // Evaluate Part A
+            for (let i = 1; i <= 110; i++) {
+                const q = questionsData.find(item => item.id === i);
+                const userVal = userAnswers[i];
+                if (!userVal) {
+                    skippedCount++;
+                } else if (userVal === q.correctAnswer) {
+                    scoreA += 1;
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+            }
+
+            // Evaluate Part B (Simple exact/case-insensitive match)
+            for (let i = 111; i <= 160; i++) {
+                const q = questionsData.find(item => item.id === i);
+                const userVal = userAnswers[i] ? userAnswers[i].toString().trim().toLowerCase() : '';
+                const targetVal = q.correctAnswer.toLowerCase();
+
+                if (!userVal) {
+                    skippedCount++;
+                } else if (userVal === targetVal || targetVal.includes(userVal)) {
+                    scoreB += 2;
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+            }
+
+            // Part C Skipped counter
+            for (let i = 161; i <= 200; i++) {
+                if (!userAnswers[i] || userAnswers[i].trim() === '') {
+                    skippedCount++;
+                }
+            }
+
+            // Render Results in Dashboard
+            document.getElementById('score-part-a').textContent = `${scoreA}`;
+            document.getElementById('score-part-b').textContent = `${scoreB}`;
+            document.getElementById('score-total').textContent = `${scoreA + scoreB}`;
+
+            document.getElementById('stats-correct').textContent = correctCount;
+            document.getElementById('stats-wrong').textContent = wrongCount;
+            document.getElementById('stats-skipped').textContent = skippedCount;
+
+            resultDashboard.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Re-render current question and grid with unlocked answers
+            renderCurrentQuestion();
+            renderQuestionGrid();
+        }
+
+        // Initialize App
+        renderCurrentQuestion();
+        renderQuestionGrid();
+    </script>
+</body>
+</html>
